@@ -1,0 +1,111 @@
+---
+title: 'Vacinação Covid-19 no RS'
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: row
+    vertical_layout: fill
+---
+<style>
+.navbar {
+  background-color:#FC8D59;
+  border-color:white;
+}
+.navbar-brand {
+color:white!important;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+library(flexdashboard)
+library(readxl)
+library(tidyverse)
+library(ggthemes)
+library(GADMTools)
+require(ggplot2) # para gr?ficos
+library(qqplotr) # Gr?ficos e envelope no ggplot2
+library(plotly) # gr?ficos interativos
+library(geobr)          # Bases de dados de mapas do Brasil
+library(sf)             # Edi??o de arquivos de superf?cie
+library(RColorBrewer)   # Paleta de cores
+library(shiny)
+
+load("grafRS.RData")
+
+cores<-brewer.pal(7,'Spectral')
+
+```
+
+Gráficos
+=======================================================================
+
+Row
+-----------------------------------------------------------------------
+
+### Percentual da população gaúcha com pelo menos uma dose até 21/07/2021
+
+```{r}
+valueBox(value = paste(round(sum(dadosn$Total1dose)/sum(dadosn$`População geral`)*100,2),"%"),
+         color = cores[2],
+         icon = "far fa-hospital"
+         )
+```
+
+### Percentual da população gaúcha com esquema vacinal completo até 21/07/2021
+
+```{r}
+valueBox(value = paste(round(sum(dadosn$Totalcompleto)/sum(dadosn$`População geral`)*100,2),"%"),
+         color = cores[2],
+         icon = "far fa-hospital"
+         )
+```
+
+Row
+-----------------------------------------------------------------------
+### Mapa de vacinação para Covid-19 com pelo menos uma dose
+```{r}
+
+graf1
+
+
+```
+
+### Mapa de vacinação para Covid-19 com esquema vacinal completo
+<!-- ### Mapa de vacinação para Covid-19 com esquema vacinal completo até 21/07/2021 -->
+```{r}
+
+
+graf2
+
+```
+
+
+
+Sobre
+=======================================================================
+
+**O aplicativo**
+
+O objetivo deste aplicativo é facilitar a visualização geográfica da vacinação para a Covid-19 no estado do Rio Grande do Sul (RS). Para tanto ilustramos, em dois mapas, a distribuição do percentual da população do RS por município com a primeira dose e também com a imunização completa. 
+
+
+**Os dados**
+
+Os dados foram registrados no site da Secretaria da Saúde do Estatos do RS e referem-se às vacinas aplicadas desde o início da campanha de vacinação até o dia 21/07/2021. 
+
+**Desenvolvimento**
+
+<u> Promoção:</u>  Este aplicativo é um resultado da ação extensionista <b> Sigma Aplica </b>, promovida pela Sigma Jr Consultoria Estatística, empresa júnior do curso de Bacharelado em Estatística da Universidade Federal de Santa Maria.
+
+<u> Autoras:</u> </p>
+Laís Helen Loose é Professora Adjunta na Universidade Federal de Santa Maria. É Doutora em Estatística pela Universidade de São Paulo e co-orientadora da Sigma Jr Consultoria Estatística. 
+
+Renata Rojas Guerra é Professora Adjunta na Universidade Federal de Santa Maria. É Doutora em Estatística pela Universidade Federal de Pernambuco e orientadora da Sigma Jr Consultoria Estatística. 
+
+
+
